@@ -1,0 +1,81 @@
+// Fonts
+//@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+//@import 'variables';
+
+// Bootstrap
+//@import '~bootstrap/scss/bootstrap';
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import '~materialize-css/sass/materialize';
+@import 'spacing';
+* {
+	font-family: 'Roboto', sans-serif;
+}
+
+body{
+		background-color: #f3e5f5;
+}
+
+.robotoSlab{
+	font-family: 'Roboto Slab', serif;
+}
+
+.container-fluid{
+	width: 100%;
+    padding-right: 25px;
+    padding-left: 25px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.img-carousel{
+	min-height: 100vh;
+}
+
+@media (min-width: 998px ){//laptop
+	.logo-welcome {
+	    height: 30rem;
+	    position: relative;
+	    //transform: translate(460px, 20px);
+	}
+}
+@media(max-width: 997px){//tablet
+	.logo-welcome{
+		height: 23rem;
+	    position: relative;
+    	//transform: translate(245px, 55px);
+	}
+}
+@media(max-width: 500px){//smartphone 
+	.logo-welcome{
+		margin-top: 70px;
+		width: 20rem;
+	    height: 20rem;
+	    position: relative;
+	    //transform: translate(40px, 50px);
+	}
+}
+
+.nav-logo{
+	width:10rem;
+	height: 4rem;
+	padding:5px 0px;
+}
+
+.welcome{
+	position: absolute;
+    width: 100%;
+    height: 90.3vh;
+    z-index: 100;
+    background-image: linear-gradient(#4a148c7d, #fdfdfde8);
+}
+
+.h100{
+	height: 100%;
+}
+
+.w100{
+	width: 100%;
+}
