@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -19,6 +19,7 @@ class User extends Authenticatable
         'apellido', 
         'telefono', 
         'email', 
+        'perfil_id', 
         'password'
     ];
 
@@ -28,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'perfil_id'
     ];
 
     /**
@@ -39,4 +40,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function perfil()
+    {
+        return $this->belongsTo(Perfiles::class, 'perfil_id', 'id_perfil')->first();
+    }
 }

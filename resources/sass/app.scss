@@ -6,28 +6,25 @@
 
 // Bootstrap
 //@import '~bootstrap/scss/bootstrap';
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,700;1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 @import '~materialize-css/sass/materialize';
 @import 'spacing';
+@import 'contentImage';
+
 * {
 	font-family: 'Roboto', sans-serif;
 }
-
 body{
-		background-color: #f3e5f5;
-}
-
-.robotoSlab{
-	font-family: 'Roboto Slab', serif;
+	background-color: #fef5ff;
 }
 
 .container-fluid{
 	width: 100%;
-    padding-right: 25px;
-    padding-left: 25px;
-    margin-right: auto;
-    margin-left: auto;
+	padding-right: 25px;
+	padding-left: 25px;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 .img-carousel{
@@ -36,24 +33,24 @@ body{
 
 @media (min-width: 998px ){//laptop
 	.logo-welcome {
-	    height: 30rem;
-	    position: relative;
+		height: 30rem;
+		position: relative;
 	    //transform: translate(460px, 20px);
 	}
 }
 @media(max-width: 997px){//tablet
 	.logo-welcome{
 		height: 23rem;
-	    position: relative;
+		position: relative;
     	//transform: translate(245px, 55px);
-	}
+    }
 }
 @media(max-width: 500px){//smartphone 
 	.logo-welcome{
 		margin-top: 70px;
 		width: 20rem;
-	    height: 20rem;
-	    position: relative;
+		height: 20rem;
+		position: relative;
 	    //transform: translate(40px, 50px);
 	}
 }
@@ -66,10 +63,10 @@ body{
 
 .welcome{
 	position: absolute;
-    width: 100%;
-    height: 90.3vh;
-    z-index: 100;
-    background-image: linear-gradient(#4a148c7d, #fdfdfde8);
+	width: 100%;
+	height: 90.3vh;
+	z-index: 100;
+	background-image: linear-gradient(#4a148c7d, #fdfdfde8);
 }
 
 .h100{
@@ -78,4 +75,36 @@ body{
 
 .w100{
 	width: 100%;
+}
+
+.radius{
+	border-radius: 35px;
+}
+
+.container-table {
+	margin: 0 auto;
+	max-width: 1280px;
+	width: 90%;
+}
+
+@media(min-width: 601px) {
+	.container-table {
+		width: 85%;
+	}
+}
+
+@media only screen and (min-width: 993px) {
+	.container-table {
+		width: 90%;
+	}
+}
+
+.h101{
+	height: 101% !important;
+}
+
+.parallax-container{
+	height: 400px;
+	background: rgb(63,0,108);
+	background: linear-gradient(20deg, rgba(63,0,108,0.6138830532212884) 100%, rgba(63,0,108,0.6362920168067228) 100%);
 }

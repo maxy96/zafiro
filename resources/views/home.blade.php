@@ -2,10 +2,11 @@
 
 @section('content')
 <div class="container">
+    
     <div class="row center">
-        <div class="col m8">
+        <div class="col m12">
             <div class="card">
-                <div class="card-title">Dashboard</div>
+                <div class="card-title"><h3 class="purple-text"> Bienvenido !! </h3></div>
 
                 <div class="card-content">
                     @if (session('status'))
@@ -13,8 +14,8 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                        <h5>Inicio de sesion correcto.</h5>    
 
-                    You are logged in!
                 </div>
             </div>
         </div>

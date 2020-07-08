@@ -30,4 +30,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'maps' => [
+        'api_key' => env('MAPS_API_KEY'),
+    ],
 ];

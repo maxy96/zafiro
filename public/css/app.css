@@ -1,6 +1,6 @@
-@import url(https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;
 
-300;400;500;600&display=swap);@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap);@charset "UTF-8";
+0,700;1,500&display=swap);@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap);@charset "UTF-8";
 .materialize-red {
   background-color: #e51c23 !important;
 }
@@ -9178,6 +9178,10 @@ input[type=range]::-ms-thumb {
   padding: 0 !important;
 }
 
+.p20 {
+  padding: 20px !important;
+}
+
 /* Padding Top */
 
 .pt2 {
@@ -9349,7 +9353,7 @@ input[type=range]::-ms-thumb {
 }
 
 .pl60 {
-  padding-left: 60px;
+  padding-left: 60px !important;
 }
 
 .pl70 {
@@ -9399,7 +9403,7 @@ input[type=range]::-ms-thumb {
 }
 
 .pr60 {
-  padding-right: 60px;
+  padding-right: 60px !important;
 }
 
 .pr70 {
@@ -9677,16 +9681,50 @@ input[type=range]::-ms-thumb {
   margin-right: 110px;
 }
 
+/* Parent Container */
+
+.content_img {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  float: left;
+  margin-right: 10px;
+}
+
+/* Child Text Container */
+
+.content_img div {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: black;
+  color: white;
+  margin-bottom: 5px;
+  font-family: sans-serif;
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+
+/* Hover on Parent Container */
+
+.content_img:hover {
+  cursor: pointer;
+}
+
+.content_img:hover div {
+  width: 150px;
+  padding: 8px 15px;
+  visibility: visible;
+  opacity: 0.7;
+}
+
 * {
   font-family: "Roboto", sans-serif;
 }
 
 body {
-  background-color: #f3e5f5;
-}
-
-.robotoSlab {
-  font-family: "Roboto Slab", serif;
+  background-color: #fef5ff;
 }
 
 .container-fluid {
@@ -9744,5 +9782,37 @@ body {
 
 .w100 {
   width: 100%;
+}
+
+.radius {
+  border-radius: 35px;
+}
+
+.container-table {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 90%;
+}
+
+@media (min-width: 601px) {
+  .container-table {
+    width: 85%;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  .container-table {
+    width: 90%;
+  }
+}
+
+.h101 {
+  height: 101% !important;
+}
+
+.parallax-container {
+  height: 400px;
+  background: #3f006c;
+  background: linear-gradient(20deg, rgba(63, 0, 108, 0.6138830532) 100%, rgba(63, 0, 108, 0.6362920168) 100%);
 }
 

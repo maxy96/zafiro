@@ -11,6 +11,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+         $this->call(InmobiliariasSeeder::class);
+         $this->call(PerfilesSeeder::class);
+         $this->call(EstadosPropiedadesSeeder::class);
+         //$this->call(UserSeeder::class);
+         //$this->call(PropiedadesSeeder::class);
+         //$this->call(PropiedadesSolicitadasSeeder::class);
+         //$this->call(AlquiladosSeeder::class);
+         //$this->call(VendidosSeeder::class);
     }
 }

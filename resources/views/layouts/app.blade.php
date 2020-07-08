@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    @yield('meta')
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -17,11 +17,12 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @stack('styles')
 </head>
 <body>
     <div class="navbar-fixed">
-        <nav class="purple darken-4">
-            <div class="nav-wrapper container-fluid ">
+        <nav class="purple darken-4 ">
+            <div class="nav-wrapper container-fluid">
               <a href="{{route('welcome')}}" class="brand-logo">
                 <img class="nav-logo" src="{{asset('logo-navbar-blanco.png')}}" alt="">
             </a>

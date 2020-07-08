@@ -15,29 +15,30 @@
 	</li>
 	<li><a class="subheader">CONTENIDO</a></li>
 	<li>
-		<a class="dropdown-trigger btn waves-effect purple darken-4" href='#' data-target='dropdown1'>Categoria</a>
+		<a class="dropdown-trigger btn waves-effect purple darken-4 radius" href='#' data-target='dropdown1'>Propiedades</a>
 		<!-- Dropdown Structure -->
-		<ul id='dropdown1' class='dropdown-content'>
-			<li><a href="{{route('categorias')}}">Todos</a></li>
-			<li class="disabled"><a href="#">Item</a></li>
-			<li class="divider" tabindex="-1"></li>
+		<ul id='dropdown1' class="dropdown-content">
+			<li><a class="purple-text text-darken-4" href="{{route('propiedades.todos')}}">Todos</a></li>
+			@foreach(App\Models\Inmobiliarias::all() as $inmobiliaria)
+			<li><a class="purple-text text-darken-4" href="{{route('propiedades.inmobiliaria', $inmobiliaria->inmobiliaria)}}">{{$inmobiliaria->inmobiliaria}}</a></li>
+			@endforeach
 		</ul>
 	</li>
-	<li><a href="#" class="btn waves-effect purple darken-4 disabled">Mapa</a></li>
-
-	<li><div class="divider"></div></li>
-	<li><a class="subheader">SOLO ADMINISTRADOR</a></li>
-	<li><a class="waves-effect btn disabled" href="{{route('tabla1')}}">Vencimientos</a></li>
+	<li><a href="#" class="btn waves-effect purple darken-4 disabled radius">Mapa</a></li>
+	
+	@auth
+		@includeIf(Auth::user()->perfil()->descripcion.'.menu')
+	@endauth
 
 	<li><div class="divider"></div></li>
 	@guest{{--Invitado--}}
 	<li><a class="subheader">IDENTIFICARSE</a></li>
-	<li><a href="{{route('login')}}" class="btn waves-effect  indigo darker-4">{{__('Iniciar sesion')}}</a></li>
-	<li><a href="{{route('register')}}" class="btn waves-effect  indigo darker-4">{{__('Registro')}}</a></li>
+	<li><a href="{{route('login')}}" class="btn waves-effect radius indigo darker-4">{{__('Iniciar sesion')}}</a></li>
+	<li><a href="{{route('register')}}" class="btn waves-effect radius indigo darker-4">{{__('Registro')}}</a></li>
 	@else{{--Usuario logueado--}}
 	<li><a class="subheader">CERRAR SESION</a></li>
 	<li>
-		<a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn waves-effect  indigo darker-4">{{ __('Cerrar sesion') }}
+		<a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn waves-effect radius indigo darker-4">{{ __('Cerrar sesion') }}
 		</a>
 		<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             @csrf
@@ -48,8 +49,10 @@
 
 @push('scripts')
 <script>
-	$('.dropdown-trigger').dropdown({
-		alignment: 'top',
+	$(function(){
+		$('.dropdown-trigger').dropdown({
+			alignment: 'left',
+		});
 	});
 </script>
 @endpush

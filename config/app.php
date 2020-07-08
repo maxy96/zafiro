@@ -121,6 +121,8 @@ return [
 
     'key' => env('APP_KEY'),
 
+    'zafiro_key' => env('ZAFIRO_KEY'), //ES UNA API KEY 
+
     'cipher' => 'AES-256-CBC',
 
     /*

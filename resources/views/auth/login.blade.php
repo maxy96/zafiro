@@ -8,7 +8,7 @@
                 @csrf
                 <div class="card">
                     <div class="card-title center pt2" style="border-bottom: 1px solid #eeeeee;">
-                        <h4 class="robotoSlab purple-text darken-text-2">Iniciar sesion</h4>
+                        <h4 class="purple-text darken-text-2">Iniciar sesion</h4>
                     </div>
                     <div class="card-content pl30 pr30 pb0">
                         <div class=" row">
