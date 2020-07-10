@@ -93,47 +93,41 @@
 					</td>
 					<td>$ {{propiedad.precio}}</td>
 					<td>
-						<button class="btn-floating btn-small pink modal-trigger disabled" v-on:click.prevent="capturarPropiedad(propiedad)" href="#editarPropiedad"><i class="material-icons">edit</i></button>
+						<button class="btn-floating btn-small pink modal-trigger" v-on:click.prevent="capturarPropiedad(propiedad)" href="#editarPropiedad"><i class="material-icons">edit</i></button>
 						<button class="btn-floating btn-small green accent-4 modal-trigger" v-on:click.prevent="capturarPropiedadID(propiedad.id_propiedad)" href="#galeria"><i class="material-icons">add_a_photo</i></button>
 					</td>
 				</tr>
 			</tbody>
 		</datatable>
 		<div id="editarPropiedad" class="modal modal-fixed-footer">
-			<form enctype="multipart/form-data">
+			<form @submit.prevent="updatePropiedad" enctype="multipart/form-data">
 				<div class="modal-content">
-					<h5 class="grey-text ">Editar propiedad - En desarrollo</h5>
+					<h5 class="grey-text ">Editar propiedad</h5>
 					<div class="divider"></div>
 					<div class="row mt10">
-						<div class="col l12 s12">
-							<label v-for="inmobiliaria in inmobiliarias">
-								<input class="with-gap" v-model="editPropiedad.inmobiliaria" v-bind:value="inmobiliaria.id_inmobiliaria" type="radio" />
-								<span>{{inmobiliaria.descripcion}}</span>
-							</label>
-						</div>
 						<div class="input-field col l6 s12">
-							<input id="direccion" v-model="editPropiedad.direccion" type="text" class="validate">
+							<input v-model="editPropiedad.direccion" type="text" class="validate" placeholder="">
 							<label for="direccion">Direccion</label>
 						</div>
 						<div class="input-field col l6 s12">
-							<input id="titulo" v-model="editPropiedad.titulo" type="text" class="validate">
+							<input v-model="editPropiedad.titulo" type="text" class="validate" placeholder="">
 							<label for="titulo">Titulo</label>
 						</div>
 						<div class="input-field col l12 s12">
-							<textarea id="caracteristica" v-model="editPropiedad.caracteristica" class="materialize-textarea"></textarea>
+							<textarea  v-model="editPropiedad.caracteristica" class="materialize-textarea" placeholder=""></textarea>
 							<label for="caracteristica">Caracteristicas</label>
 						</div>
 						<div class="input-field file-field col l6 s12">
 							<div class="btn">
-								<span>Imagen</span>
-								<input @change="obtenerImagen" type="file" accept="image/*" ref="fileImage" required>
+								<span>Cambiar imagen</span>
+								<input @change="obtenerImagen" type="file" accept="image/*" ref="fileImage">
 							</div>
 							<div class="file-path-wrapper">
 								<input class="file-path validate" type="text">
 							</div>
 						</div>
 						<div class="input-field col l6 s12">
-							<input id="precio" v-model="editPropiedad.precio" type="number" class="validate">
+							<input  v-model="editPropiedad.precio" type="number" class="validate" placeholder="">
 							<label for="precio">Precio</label>
 						</div>
 					</div>
@@ -210,10 +204,6 @@ import Pagination from './Pagination.vue';
 export default{
 	components: { datatable: Datatable, pagination: Pagination },
 	created() {
-		document.addEventListener('DOMContentLoaded', function() {
-			var elems = document.querySelectorAll('.tooltipped');
-			var instances = M.Tooltip.init(elems, {});
-		});
 		this.getPropiedades();
 		this.getInmobiliarias();
 	},
@@ -250,7 +240,14 @@ export default{
 
 			loading: false,
 
-			editPropiedad: [],
+			editPropiedad: {
+				id_propiedad: '',
+				direccion:'',
+				titulo: '',
+				caracteristica: '',
+				imagen:'',
+				precio: ''
+			},
 
 			newPropiedad:{
 				inmobiliaria: '',
@@ -301,6 +298,7 @@ export default{
 					this.propiedades = data.data.data;
 					this.configPagination(data.data);
 				}
+				this.$refs.fileImage.value = '';
 			})
 			.catch(errors => {
 				console.log(errors);
@@ -366,11 +364,17 @@ export default{
 
 			fileReader.onload = (e) =>{
 				this.newPropiedad.imagen = e.target.result;
+				this.editPropiedad.imagen = e.target.result;
 			}
 		}, //end obtenerImagen
 		
 		capturarPropiedad(propiedad){
-			this.editPropiedad = propiedad;
+			this.editPropiedad.id_propiedad = propiedad.id_propiedad, 
+			this.editPropiedad.direccion = propiedad.direccion;
+			this.editPropiedad.titulo = propiedad.titulo;
+			this.editPropiedad.caracteristica = propiedad.caracteristica;
+			this.editPropiedad.imagen = propiedad.imagen;
+			this.editPropiedad.precio = propiedad.precio;
 		},
 
 		cambiarEstadoOInmobiliaria(id, dato, header){
@@ -412,6 +416,22 @@ export default{
 				toastr.error('error');
 				console.log(error.data);
 			});
+		},
+
+		updatePropiedad(){
+			axios.put('/api/v1/propiedades/'+this.editPropiedad.id_propiedad, {
+				direccion: this.editPropiedad.direccion,
+				titulo: this.editPropiedad.titulo,
+				caracteristica: this.editPropiedad.caracteristica,
+				imagen: this.editPropiedad.imagen,
+				precio: this.editPropiedad.precio
+			}).then(response => {
+				toastr.success('Propiedad modificada')
+				this.getPropiedades()
+			}).catch(error => {
+				toastr.error('Error')
+				console.log(error.data)
+			})
 		}
 	}
 

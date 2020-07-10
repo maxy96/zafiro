@@ -18,7 +18,7 @@ Route::group(['prefix' => 'propiedades', 'as' => 'propiedades.'], function() {
 });
 
 //ADMIN
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function() {
 	Route::get('/gestionar-propiedades', 'AdminController@gestionarPropiedades')->name('gestionarPropiedades');
 });
 

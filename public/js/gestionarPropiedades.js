@@ -336,12 +336,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -350,10 +344,6 @@ __webpack_require__.r(__webpack_exports__);
     pagination: _Pagination_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   created: function created() {
-    document.addEventListener('DOMContentLoaded', function () {
-      var elems = document.querySelectorAll('.tooltipped');
-      var instances = M.Tooltip.init(elems, {});
-    });
     this.getPropiedades();
     this.getInmobiliarias();
   },
@@ -406,7 +396,14 @@ __webpack_require__.r(__webpack_exports__);
         dir: 'desc'
       },
       loading: false,
-      editPropiedad: [],
+      editPropiedad: {
+        id_propiedad: '',
+        direccion: '',
+        titulo: '',
+        caracteristica: '',
+        imagen: '',
+        precio: ''
+      },
       newPropiedad: {
         inmobiliaria: '',
         estado: 1,
@@ -462,6 +459,8 @@ __webpack_require__.r(__webpack_exports__);
 
           _this2.configPagination(data.data);
         }
+
+        _this2.$refs.fileImage.value = '';
       })["catch"](function (errors) {
         console.log(errors);
       });
@@ -530,11 +529,16 @@ __webpack_require__.r(__webpack_exports__);
 
       fileReader.onload = function (e) {
         _this5.newPropiedad.imagen = e.target.result;
+        _this5.editPropiedad.imagen = e.target.result;
       };
     },
     //end obtenerImagen
     capturarPropiedad: function capturarPropiedad(propiedad) {
-      this.editPropiedad = propiedad;
+      this.editPropiedad.id_propiedad = propiedad.id_propiedad, this.editPropiedad.direccion = propiedad.direccion;
+      this.editPropiedad.titulo = propiedad.titulo;
+      this.editPropiedad.caracteristica = propiedad.caracteristica;
+      this.editPropiedad.imagen = propiedad.imagen;
+      this.editPropiedad.precio = propiedad.precio;
     },
     cambiarEstadoOInmobiliaria: function cambiarEstadoOInmobiliaria(id, dato, header) {
       var _this6 = this;
@@ -576,6 +580,24 @@ __webpack_require__.r(__webpack_exports__);
         toastr.success('datos agregados');
       })["catch"](function (error) {
         toastr.error('error');
+        console.log(error.data);
+      });
+    },
+    updatePropiedad: function updatePropiedad() {
+      var _this8 = this;
+
+      axios.put('/api/v1/propiedades/' + this.editPropiedad.id_propiedad, {
+        direccion: this.editPropiedad.direccion,
+        titulo: this.editPropiedad.titulo,
+        caracteristica: this.editPropiedad.caracteristica,
+        imagen: this.editPropiedad.imagen,
+        precio: this.editPropiedad.precio
+      }).then(function (response) {
+        toastr.success('Propiedad modificada');
+
+        _this8.getPropiedades();
+      })["catch"](function (error) {
+        toastr.error('Error');
         console.log(error.data);
       });
     }
@@ -1177,8 +1199,7 @@ var render = function() {
                   _c(
                     "button",
                     {
-                      staticClass:
-                        "btn-floating btn-small pink modal-trigger disabled",
+                      staticClass: "btn-floating btn-small pink modal-trigger",
                       attrs: { href: "#editarPropiedad" },
                       on: {
                         click: function($event) {
@@ -1228,205 +1249,177 @@ var render = function() {
           attrs: { id: "editarPropiedad" }
         },
         [
-          _c("form", { attrs: { enctype: "multipart/form-data" } }, [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("h5", { staticClass: "grey-text " }, [
-                _vm._v("Editar propiedad - En desarrollo")
+          _c(
+            "form",
+            {
+              attrs: { enctype: "multipart/form-data" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.updatePropiedad($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "modal-content" }, [
+                _c("h5", { staticClass: "grey-text " }, [
+                  _vm._v("Editar propiedad")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "divider" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "row mt10" }, [
+                  _c("div", { staticClass: "input-field col l6 s12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editPropiedad.direccion,
+                          expression: "editPropiedad.direccion"
+                        }
+                      ],
+                      staticClass: "validate",
+                      attrs: { type: "text", placeholder: "" },
+                      domProps: { value: _vm.editPropiedad.direccion },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editPropiedad,
+                            "direccion",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "direccion" } }, [
+                      _vm._v("Direccion")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-field col l6 s12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editPropiedad.titulo,
+                          expression: "editPropiedad.titulo"
+                        }
+                      ],
+                      staticClass: "validate",
+                      attrs: { type: "text", placeholder: "" },
+                      domProps: { value: _vm.editPropiedad.titulo },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editPropiedad,
+                            "titulo",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "titulo" } }, [
+                      _vm._v("Titulo")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-field col l12 s12" }, [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editPropiedad.caracteristica,
+                          expression: "editPropiedad.caracteristica"
+                        }
+                      ],
+                      staticClass: "materialize-textarea",
+                      attrs: { placeholder: "" },
+                      domProps: { value: _vm.editPropiedad.caracteristica },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editPropiedad,
+                            "caracteristica",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "caracteristica" } }, [
+                      _vm._v("Caracteristicas")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "input-field file-field col l6 s12" },
+                    [
+                      _c("div", { staticClass: "btn" }, [
+                        _c("span", [_vm._v("Cambiar imagen")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          ref: "fileImage",
+                          attrs: { type: "file", accept: "image/*" },
+                          on: { change: _vm.obtenerImagen }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(3)
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-field col l6 s12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editPropiedad.precio,
+                          expression: "editPropiedad.precio"
+                        }
+                      ],
+                      staticClass: "validate",
+                      attrs: { type: "number", placeholder: "" },
+                      domProps: { value: _vm.editPropiedad.precio },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editPropiedad,
+                            "precio",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "precio" } }, [
+                      _vm._v("Precio")
+                    ])
+                  ])
+                ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "divider" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "row mt10" }, [
-                _c(
-                  "div",
-                  { staticClass: "col l12 s12" },
-                  _vm._l(_vm.inmobiliarias, function(inmobiliaria) {
-                    return _c("label", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.editPropiedad.inmobiliaria,
-                            expression: "editPropiedad.inmobiliaria"
-                          }
-                        ],
-                        staticClass: "with-gap",
-                        attrs: { type: "radio" },
-                        domProps: {
-                          value: inmobiliaria.id_inmobiliaria,
-                          checked: _vm._q(
-                            _vm.editPropiedad.inmobiliaria,
-                            inmobiliaria.id_inmobiliaria
-                          )
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.$set(
-                              _vm.editPropiedad,
-                              "inmobiliaria",
-                              inmobiliaria.id_inmobiliaria
-                            )
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v(_vm._s(inmobiliaria.descripcion))])
-                    ])
-                  }),
-                  0
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "input-field col l6 s12" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editPropiedad.direccion,
-                        expression: "editPropiedad.direccion"
-                      }
-                    ],
-                    staticClass: "validate",
-                    attrs: { id: "direccion", type: "text" },
-                    domProps: { value: _vm.editPropiedad.direccion },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.editPropiedad,
-                          "direccion",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "direccion" } }, [
-                    _vm._v("Direccion")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "input-field col l6 s12" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editPropiedad.titulo,
-                        expression: "editPropiedad.titulo"
-                      }
-                    ],
-                    staticClass: "validate",
-                    attrs: { id: "titulo", type: "text" },
-                    domProps: { value: _vm.editPropiedad.titulo },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.editPropiedad,
-                          "titulo",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "titulo" } }, [_vm._v("Titulo")])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "input-field col l12 s12" }, [
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editPropiedad.caracteristica,
-                        expression: "editPropiedad.caracteristica"
-                      }
-                    ],
-                    staticClass: "materialize-textarea",
-                    attrs: { id: "caracteristica" },
-                    domProps: { value: _vm.editPropiedad.caracteristica },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.editPropiedad,
-                          "caracteristica",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "caracteristica" } }, [
-                    _vm._v("Caracteristicas")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "input-field file-field col l6 s12" },
-                  [
-                    _c("div", { staticClass: "btn" }, [
-                      _c("span", [_vm._v("Imagen")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        ref: "fileImage",
-                        attrs: {
-                          type: "file",
-                          accept: "image/*",
-                          required: ""
-                        },
-                        on: { change: _vm.obtenerImagen }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _vm._m(3)
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "input-field col l6 s12" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editPropiedad.precio,
-                        expression: "editPropiedad.precio"
-                      }
-                    ],
-                    staticClass: "validate",
-                    attrs: { id: "precio", type: "number" },
-                    domProps: { value: _vm.editPropiedad.precio },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.editPropiedad,
-                          "precio",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "precio" } }, [_vm._v("Precio")])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._m(4)
-          ])
+              _vm._m(4)
+            ]
+          )
         ]
       ),
       _vm._v(" "),

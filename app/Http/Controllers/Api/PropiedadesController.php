@@ -85,6 +85,8 @@ class PropiedadesController extends Controller
            $propiedad = $this->cambiarEstado($request->dato, $id);//Si el estado es 1 cambiara a 2
         }elseif ($request->header == 'Inmobiliaria') {
             $propiedad = $this->cambiarInmobiliaria($request->dato, $id);//Si la inmobiliaira es 1 cambia a 2
+        }else{
+            $propiedad = $this->editarPropiedad($request->all(), $id);
         }
 
         return response($propiedad, 201);
@@ -101,16 +103,23 @@ class PropiedadesController extends Controller
         return $inmobiliariaPropiedad->update(['inmobiliaria_id' => $inmobiliariaID]);
     }
 
-    private function editarPropiedad()
+    private function editarPropiedad($data, $id)
     {
-        if (preg_match("/,/", $request->imagen)) {
-            $fileName = $this->guardarImagen($request->imagen);
+        if (preg_match("/,/", $data['imagen'])) {
+            $fileName = $this->guardarImagen($data['imagen']);
         }else{
-            $fileName = $request->imagen;
+            $fileName = $data['imagen'];
         }
         
         $propiedad = Propiedades::find($id)->update([
-                            ]);
+                        'direccion' => $data['direccion'],
+                        'titulo' => $data['titulo'],
+                        'caracteristica' => $data['caracteristica'],
+                        'imagen' => $fileName,
+                        'slug' => Str::slug($data['titulo']),
+                        'precio' => $data['precio']
+                    ]);
+        return $propiedad;
     }
 
     /**

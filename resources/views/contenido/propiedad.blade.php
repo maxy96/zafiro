@@ -1,22 +1,13 @@
 @extends('layouts.app')
 
 @section('meta')
-	<meta property="og:image" content="{{asset("imagen/$propiedad->imagen")}}" />
-	<meta property="og:image:height" content="200" />
-	<meta property="og:image:width" content="200" />
+<meta name="description" content= "{{$propiedad->caracteristica}}" />
+<meta property="og:image" content="{{asset("imagen/$propiedad->imagen")}}" />
+<meta property="og:image:height" content="200" />
+<meta property="og:image:width" content="200" />
 @endsection
 
 @section('title', 'Propiedad '.$propiedad->titulo)
-
-@push('styles')
-<style>
-	/* Set the size of the div element that contains the map */
-	#map {
-		height: 400px;  /* The height is 400 pixels */
-		width: 100%;  /* The width is the width of the web page */
-	}
-</style>
-@endpush
 
 @section('content')
 <div class="container">
@@ -26,8 +17,7 @@
 				<div class="card-image">
 					<img src="{{asset("imagen/$propiedad->imagen")}}">
 					<span class="card-title">{{$propiedad->titulo}}</span>
-				</div>
-				<div class="card-content">
+					<a href="https://wa.me/5493794087107?text={{route('propiedades.propiedad', $propiedad->slug)}}%20Quisiera%20obtener%20mas%20informacion%20acerca%20de%20esta%20propiedad" target="_blank" class="btn-floating halfway-fab waves-effect waves-light pink tooltipped" data-position="right" data-tooltip="Solicitar"><i class="fa fa-whatsapp"></i></a>
 				</div>
 				<div class="card-tabs">
 					<ul class="tabs tabs-fixed-width">
@@ -39,12 +29,14 @@
 				<div class="card-content grey lighten-4">
 					<div id="caracteristica">{{$propiedad->caracteristica}}</div>
 					<div id="galeria">
-						@foreach($propiedad->galeria()->get() as $imagen)
-							<img src="{{asset("imagen/$imagen->imagen")}}" height="100px" width="100px" alt="">
-						@endforeach
+						@forelse($propiedad->galeria()->get() as $imagen)
+						<img src="{{asset("imagen/$imagen->imagen")}}" height="100px" width="100px" alt="">
+						@empty
+						<span>No hay imagenes de muestra</span>
+						@endforelse
 					</div>
 					<div id="ubicacion">
-						<div id="map"></div>
+						<span>En desarrollo</span>
 					</div>
 				</div>
 			</div>
@@ -57,20 +49,7 @@
 <script>
 	$(document).ready(function(){
 		$('.tabs').tabs();
+		$('.tooltipped').tooltip();
 	});
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('services.maps.api_key')}}&callback=initMap"
-type="text/javascript"></script>
-<script>
-// Initialize and add the map
-function initMap() {
-  // The location of Uluru
-  var uluru = {lat: -20.344, lng: 131.036};
-  // The map, centered at Uluru
-  var map = new google.maps.Map(
-  	document.getElementById('map'), {zoom: 4, center: uluru});
-  // The marker, positioned at Uluru
-  var marker = new google.maps.Marker({position: uluru, map: map});
-}
 </script>
 @endpush

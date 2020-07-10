@@ -108,3 +108,9 @@ body{
 	background: rgb(63,0,108);
 	background: linear-gradient(20deg, rgba(63,0,108,0.6138830532212884) 100%, rgba(63,0,108,0.6362920168067228) 100%);
 }
+
+/* Set the size of the div element that contains the map */
+#map {
+	height: 400px;  /* The height is 400 pixels */
+	width: 100%;  /* The width is the width of the web page */
+}
