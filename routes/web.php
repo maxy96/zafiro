@@ -31,4 +31,8 @@ Route::get('/pub', function() {
     return view('contenido.publicado');
 });
 
+Route::get('/maps', function(){
+	return view('contenido.maps');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');

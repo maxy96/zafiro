@@ -14,13 +14,20 @@
                         <div class=" row">
                             <div class="input-field col m12 s12">
                               <i class="material-icons prefix">mail_outline</i>
-                              <input id="email" type="email" name="email" class="validate">
+                              <input id="email" type="email" name="email" value="{{old('email')}}" class="validate @error('email') invalid @enderror">
                               <label for="email">Email</label>
+                              @error('email')
+                                    <span class="helper-text text-red" data-error="{{ $message }}">
+                                    </span>
+                              @enderror
                           </div>
                           <div class="input-field col m12 s12">
                               <i class="material-icons prefix">lock_outline</i>
-                              <input id="password" type="password" name="password" class="validate">
+                              <input id="password" type="password" name="password" class="validate @error('password') invalid @enderror">
                               <label for="password">Contraseña</label>
+                              @error('password')
+                                    <span class="invalid-feedback" data-error="{{ $message }}"></span>
+                                @enderror
                           </div>
                           <div class="center col s12">
                               <label>
