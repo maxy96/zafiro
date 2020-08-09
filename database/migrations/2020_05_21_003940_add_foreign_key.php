@@ -15,41 +15,55 @@ class AddForeignKey extends Migration
     {
         //TABLA PROPIEDADES
         Schema::table('propiedades', function (Blueprint $table) {
-            $table->foreign('inmobiliaria_id')->references('id_inmobiliaria')->on('inmobiliarias')
-                    ->onDelete('cascade')->onUpdate('cascade');
+            //$table->foreign('inmobiliaria_id')->references('id_inmobiliaria')->on('inmobiliarias')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('estadoPropiedad_id')->references('id_estadoPropiedad')->on('estados_propiedades')->onDelete('cascade')->onUpdate('cascade');
         });
 
         //TABLA PROPIEDADES SOLICITADAS
         Schema::table('propiedades_solicitadas', function(Blueprint $table){
             $table->foreign('propiedad_id')->references('id_propiedad')->on('propiedades')
-                    ->onDelete('cascade')->onUpdate('cascade');
+            ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
         //TABLA VENDIDOS
         Schema::table('vendidos', function(Blueprint $table){
             $table->foreign('propiedadSolicitada_id')->references('id_propiedadSolicitada')->on('propiedades_solicitadas')
-                    ->onDelete('cascade')->onUpdate('cascade');
+            ->onDelete('cascade')->onUpdate('cascade');
         });   
 
         //TABLA ALQUILADOS
         Schema::table('alquilados', function(Blueprint $table){
             $table->foreign('propiedadSolicitada_id')->references('id_propiedadSolicitada')->on('propiedades_solicitadas')
-                    ->onDelete('cascade')->onUpdate('cascade');
+            ->onDelete('cascade')->onUpdate('cascade');
         });  
 
         //TABLA GALERIAS
         Schema::table('galerias', function(Blueprint $table){
             $table->foreign('propiedad_id')->references('id_propiedad')->on('propiedades')
-                    ->onDelete('cascade')->onUpdate('cascade');
+            ->onDelete('cascade')->onUpdate('cascade');
             $table->primary(array('propiedad_id', 'imagen'));        
         });  
 
+        //TABLA PRECIOS
+        Schema::table('precios', function(Blueprint $table){
+            $table->foreign('propiedad_id')->references('id_propiedad')->on('propiedades')
+            ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('inmobiliaria_id')->references('id_inmobiliaria')->on('inmobiliarias')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('iso')->references('iso')->on('monedas')
+            ->onDelete('cascade')->onUpdate('cascade');
+            $table->primary(array('propiedad_id', 'inmobiliaria_id', 'iso'));        
+        });
+
+        //TABLA DIRECCIONES  
+        Schema::table('direcciones', function(Blueprint $table){
+            $table->foreign('propiedad_id')->references('id_propiedad')->on('propiedades')
+            ->onDelete('cascade')->onUpdate('cascade');
+        });
         //TABLA USUARIOS
         Schema::table('users', function(Blueprint $table){
             $table->foreign('perfil_id')->references('id_perfil')->on('perfiles')
-                    ->onDelete('cascade')->onUpdate('cascade');        
+            ->onDelete('cascade')->onUpdate('cascade');        
         });  
 
     }
@@ -61,6 +75,14 @@ class AddForeignKey extends Migration
      */
     public function down()
     {
+        //DIRECCIONES DROP FOREIGN KEY
+        Schema::table('direcciones', function (Blueprint $table) {
+            $table->dropForeign(['propiedad_id']);
+        });
+        //PRECIOS DROP FOREIGN KEY
+        Schema::table('precios', function (Blueprint $table) {
+            $table->dropForeign(['propiedad_id', 'inmobiliaria_id', 'iso']);
+        });
         //GALERIAS DROP FOREIGN KEY
         Schema::table('galerias', function (Blueprint $table) {
             $table->dropForeign(['propiedad_id']);

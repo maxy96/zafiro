@@ -1,6 +1,10 @@
 {
     "/js/app.js": "/js/app.js",
+    "/css/materialize-stepper.css": "/css/materialize-stepper.css",
     "/css/app.css": "/css/app.css",
     "/css/toastr.css": "/css/toastr.css",
-    "/js/gestionarPropiedades.js": "/js/gestionarPropiedades.js"
+    "/js/gestionarPropiedades.js": "/js/gestionarPropiedades.js",
+    "/js/maps.js": "/js/maps.js",
+    "/js/materialize-stepper.js": "/js/materialize-stepper.js",
+    "/js/nuevaPropiedad.js": "/js/nuevaPropiedad.js"
 }

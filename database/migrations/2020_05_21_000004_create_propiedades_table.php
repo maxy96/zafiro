@@ -15,14 +15,14 @@ class CreatePropiedadesTable extends Migration
     {
         Schema::create('propiedades', function (Blueprint $table) {
             $table->bigIncrements('id_propiedad');
-            $table->integer('inmobiliaria_id')->unsigned();
+            //$table->integer('inmobiliaria_id')->unsigned();
             $table->integer('estadoPropiedad_id')->unsigned();
-            $table->string('direccion', 120)->unique();
+            //$table->string('direccion', 120)->unique();
             $table->string('titulo', 40);
             $table->mediumText('caracteristica', 200);
             $table->string('slug', 200)->unique();
             $table->string('imagen');
-            $table->decimal('precio', 12, 2);
+            //$table->decimal('precio', 12, 2);
         });
     }
 

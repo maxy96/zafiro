@@ -1,16 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-	<div class="form-group">
-		<label for="address_address">Address</label>
-		<input type="text" id="address-input" name="address_address" class="form-control map-input">
-		<input type="hidden" name="address_latitude" id="address-latitude" value="0" />
-		<input type="hidden" name="address_longitude" id="address-longitude" value="0" />
-	</div>
-	<div id="address-map-container" style="width:100%;height:400px; ">
-		<div style="width: 100%; height: 100%" id="address-map"></div>
-	</div>
+<div class="" id="app">
+	<maps/>
 </div>
 @endsection
 
@@ -18,12 +10,10 @@
 <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.maps.api_key') }}&libraries=places&callback=initialize" async defer></script>
 
 <script>
-	function initialize() {
-
+	function initialize(){
 		$('form').on('keyup keypress', function(e) {
 			var keyCode = e.keyCode || e.which;
-			console.log(e.keyCode);
-			console.log(e.which);
+			console.log(keyCode);
 			if (keyCode === 13) {
 				e.preventDefault();
 				return false;
@@ -102,4 +92,6 @@
 		longitudeField.value = lng;
 	}
 </script>
+
+<script src="{{asset('js/maps.js')}}"></script>
 @endpush

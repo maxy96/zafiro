@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
          $this->call(InmobiliariasSeeder::class);
          $this->call(PerfilesSeeder::class);
+         $this->call(MonedasSeeder::class);
          $this->call(EstadosPropiedadesSeeder::class);
          //$this->call(UserSeeder::class);
          //$this->call(PropiedadesSeeder::class);

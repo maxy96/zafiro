@@ -22,6 +22,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], f
 	Route::get('/gestionar-propiedades', 'AdminController@gestionarPropiedades')->name('gestionarPropiedades');
 });
 
+//PRUEBA
+Route::get('/prueba', function() {
+    return view('contenido.prueba');
+});
 
 //IDENTIFICACION
 Auth::routes();
