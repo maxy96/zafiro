@@ -1,4 +1,4 @@
-const API_KEY = 'AIzaSyANyjxamDNLkKuBoixEDZg-3Fy_UdVwI4o';
+const API_KEY = process.env.MIX_MAPS_API_KEY;
 const CALLBACK_NAME = 'initialize';
 const LIBRARIES = 'places';
 

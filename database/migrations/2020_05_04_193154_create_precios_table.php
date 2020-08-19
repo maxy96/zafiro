@@ -17,7 +17,6 @@ class CreatePreciosTable extends Migration
             $table->bigInteger('propiedad_id')->unsigned();
             $table->string('iso', 3);
             $table->decimal('precio', 12,2);
-            $table->integer('inmobiliaria_id')->unsigned();
         });
     }
 

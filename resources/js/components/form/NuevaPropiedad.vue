@@ -1,18 +1,18 @@
 <template>
 	<div class="row">
-		<div class="col s12">
+		<div class="col s12 mt10 mb10">
 			<label v-for="inmobiliaria in inmobiliarias">
-				<input name="inmobiliaria" v-model="newPropiedad.inmobiliaria" type="radio" :value="inmobiliaria.id_inmobiliaria" />
+				<input name="inmobiliaria" v-model="$store.state.newPropiedad.inmobiliaria" type="radio" :value="inmobiliaria.id_inmobiliaria" required />
 				<span>{{inmobiliaria.inmobiliaria}}</span>
 			</label>
 		</div>
 		
 		<div class="input-field col s12">
-			<input id="titulo" v-model="newPropiedad.titulo" type="text" class="validate">
+			<input id="titulo" v-model="$store.state.newPropiedad.titulo" type="text" class="validate" required>
 			<label for="titulo">Titulo</label>
 		</div>
 		<div class="input-field col l12 s12">
-			<textarea id="caracteristica" v-model="newPropiedad.caracteristicas" class="materialize-textarea"></textarea>
+			<textarea id="caracteristica" v-model="$store.state.newPropiedad.caracteristicas" class="materialize-textarea" required></textarea>
 			<label for="caracteristica">Caracteristicas</label>
 		</div>
 		<div class="input-field file-field col s12">
@@ -24,11 +24,10 @@
 				<input class="file-path validate" type="text">
 			</div>
 		</div>
-		
 	</div>
 </template>
 <script>
-import { mapState } from 'vuex';
+
 export default{
 	created(){
 		this.getInmobiliarias();
@@ -36,20 +35,8 @@ export default{
 
 	data(){
 		return {
-			newPropiedad:{
-				inmobiliaria: '',
-				estado: 1,
-				direccion: '',
-				titulo:'',
-				caracteristicas:'',
-				imagen: '',
-				precio: ''
-			},
 			inmobiliarias: []
 		}
-	},
-	computed:{
-		...mapState(['inmo'])
 	},
 
 	methods: {
@@ -64,7 +51,7 @@ export default{
 			fileReader.readAsDataURL(file);
 
 			fileReader.onload = (e) =>{
-				this.newPropiedad.imagen = e.target.result;
+				this.$store.state.newPropiedad.imagen = e.target.result;
 				//this.editPropiedad.imagen = e.target.result;
 			}
 		} //end obtenerImagen

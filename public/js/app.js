@@ -57973,6 +57973,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 document.addEventListener('DOMContentLoaded', function () {
   M.AutoInit();
 });
+Vue.config.productionTip = false;
 
 /***/ }),
 

@@ -14,3 +14,7 @@ Route::apiResource('/v1/galerias', 'Api\GaleriaController');
 
 Route::apiResource('/v1/inmobiliarias', 'Api\InmobiliariaController');
 
+Route::apiResource('/v1/direccion', 'Api\DireccionController');
+
+Route::apiResource('/v1/precio', 'Api\PreciosController');
+

@@ -15,7 +15,7 @@ class CreatePropiedadesTable extends Migration
     {
         Schema::create('propiedades', function (Blueprint $table) {
             $table->bigIncrements('id_propiedad');
-            //$table->integer('inmobiliaria_id')->unsigned();
+            $table->integer('inmobiliaria_id')->unsigned();
             $table->integer('estadoPropiedad_id')->unsigned();
             //$table->string('direccion', 120)->unique();
             $table->string('titulo', 40);

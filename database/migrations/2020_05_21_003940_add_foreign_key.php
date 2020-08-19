@@ -15,7 +15,7 @@ class AddForeignKey extends Migration
     {
         //TABLA PROPIEDADES
         Schema::table('propiedades', function (Blueprint $table) {
-            //$table->foreign('inmobiliaria_id')->references('id_inmobiliaria')->on('inmobiliarias')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('inmobiliaria_id')->references('id_inmobiliaria')->on('inmobiliarias')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('estadoPropiedad_id')->references('id_estadoPropiedad')->on('estados_propiedades')->onDelete('cascade')->onUpdate('cascade');
         });
 
@@ -49,10 +49,10 @@ class AddForeignKey extends Migration
         Schema::table('precios', function(Blueprint $table){
             $table->foreign('propiedad_id')->references('id_propiedad')->on('propiedades')
             ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('inmobiliaria_id')->references('id_inmobiliaria')->on('inmobiliarias')->onDelete('cascade')->onUpdate('cascade');
+            //$table->foreign('inmobiliaria_id')->references('id_inmobiliaria')->on('inmobiliarias')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('iso')->references('iso')->on('monedas')
             ->onDelete('cascade')->onUpdate('cascade');
-            $table->primary(array('propiedad_id', 'inmobiliaria_id', 'iso'));        
+            $table->primary(array('propiedad_id', 'iso'));        
         });
 
         //TABLA DIRECCIONES  
@@ -81,7 +81,7 @@ class AddForeignKey extends Migration
         });
         //PRECIOS DROP FOREIGN KEY
         Schema::table('precios', function (Blueprint $table) {
-            $table->dropForeign(['propiedad_id', 'inmobiliaria_id', 'iso']);
+            $table->dropForeign(['propiedad_id', 'iso']);
         });
         //GALERIAS DROP FOREIGN KEY
         Schema::table('galerias', function (Blueprint $table) {

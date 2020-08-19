@@ -6,4 +6,5 @@ document.addEventListener('DOMContentLoaded', function(){
 	M.AutoInit();
 });
 
+Vue.config.productionTip = false;
 

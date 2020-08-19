@@ -13,9 +13,10 @@ class PropiedadesController extends Controller
 {
     public function index(Request $request)
     {
-        
+
         if ($request->input('client') ) {
             return Propiedades::select('id_propiedad', 'direccion', 'titulo', 'inmobiliaria_id', 'estadoPropiedad_id', 'imagen')
+            ->join('precios', 'propiedad_id', '=', 'id_propiedad')
             ->join('inmobiliarias', 'id_inmobiliaria', '=', 'inmobiliaria_id')
             ->join('estados_propiedades', 'id_estadoPropiedad', '=', 'estadoPropiedad_id')
             ->get();
@@ -27,10 +28,12 @@ class PropiedadesController extends Controller
         $dir = $request->input('dir');
         $searchValue = $request->input('search');
 
-        $query = Propiedades::select('propiedades.*' , 'inmobiliarias.inmobiliaria', 'estados_propiedades.descripcion as estado')
-            ->join('inmobiliarias', 'id_inmobiliaria', '=', 'inmobiliaria_id')
-            ->join('estados_propiedades', 'id_estadoPropiedad', '=', 'estadoPropiedad_id')
-            ->orderBy($columns[$column], $dir);
+        $query = Propiedades::select('propiedades.*' , 'inmobiliarias.inmobiliaria', 'estados_propiedades.descripcion as estado', 'precios.precio', 'precios.iso', 'direcciones.direccion')
+        ->leftJoin('precios', 'precios.propiedad_id', '=', 'id_propiedad')
+        ->leftJoin('direcciones', 'direcciones.propiedad_id', '=', 'id_propiedad')
+        ->join('inmobiliarias', 'id_inmobiliaria', '=', 'inmobiliaria_id')
+        ->join('estados_propiedades', 'id_estadoPropiedad', '=', 'estadoPropiedad_id')
+        ->orderBy($columns[$column], $dir);
 
         if ($searchValue) {
             $query->where(function($query) use ($searchValue) {
@@ -68,12 +71,12 @@ class PropiedadesController extends Controller
         $propiedad = Propiedades::create([
             'inmobiliaria_id' => $request->inmobiliaria_id,
             'estadoPropiedad_id' => 1,
-            'direccion' => $request->direccion,
+            //'direccion' => $request->direccion,
             'titulo' => $request->titulo,
             'caracteristica' => $request->caracteristicas,
             'imagen' => $fileName,
             'slug' => Str::slug($request->titulo),
-            'precio' => $request->precio
+            //'precio' => $request->precio
         ]);
 
         return response($propiedad, 201);
@@ -83,7 +86,7 @@ class PropiedadesController extends Controller
     {
         if ($request->header == 'Estado') {
            $propiedad = $this->cambiarEstado($request->dato, $id);//Si el estado es 1 cambiara a 2
-        }elseif ($request->header == 'Inmobiliaria') {
+       }elseif ($request->header == 'Inmobiliaria') {
             $propiedad = $this->cambiarInmobiliaria($request->dato, $id);//Si la inmobiliaira es 1 cambia a 2
         }else{
             $propiedad = $this->editarPropiedad($request->all(), $id);
@@ -97,6 +100,7 @@ class PropiedadesController extends Controller
         $estadoPropiedad = Propiedades::find($id);
         return $estadoPropiedad->update(['estadoPropiedad_id' => $estadoID]);
     }
+    
     private function cambiarInmobiliaria($inmobiliariaID, $id)
     {
         $inmobiliariaPropiedad = Propiedades::find($id);
@@ -112,13 +116,13 @@ class PropiedadesController extends Controller
         }
         
         $propiedad = Propiedades::find($id)->update([
-                        'direccion' => $data['direccion'],
-                        'titulo' => $data['titulo'],
-                        'caracteristica' => $data['caracteristica'],
-                        'imagen' => $fileName,
-                        'slug' => Str::slug($data['titulo']),
-                        'precio' => $data['precio']
-                    ]);
+            'direccion' => $data['direccion'],
+            'titulo' => $data['titulo'],
+            'caracteristica' => $data['caracteristica'],
+            'imagen' => $fileName,
+            'slug' => Str::slug($data['titulo']),
+            'precio' => $data['precio']
+        ]);
         return $propiedad;
     }
 
