@@ -4,16 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\Direcciones;
 
 class DireccionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         //
@@ -27,22 +24,35 @@ class DireccionController extends Controller
      */
     public function store(Request $request)
     {
-        $direccion = Direcciones::create([
-            'propiedad_id' => $request->propiedad_id,
-            'direccion' => $request->direccion,
-            'lat' => $request->lat,
-            'lon' => $request->lng
-        ]);
+        $validator = $this->validator($request->all());
 
-        return response($direccion, 201);
+        if ($validator->fails()) {
+            return response(['data' => [
+                    'error' => true,
+                    'message' => "Esta direccion ya existe"
+                ]   
+            ], 201);
+        }
+
+        return $this->guardarDireccion($request->all(), $request->propiedad_id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    private function guardarDireccion(array $data, $propiedadID)
+    {
+        $direccion = Direcciones::create([
+            'propiedad_id' => $propiedadID,
+            'direccion' => $data['direccion'],
+            'lat' => $data['lat'],
+            'lon' => $data['lng']
+        ]);
+
+         return response(['data' => [
+                    'error' => false,
+                    'message' => "Direccion almacenada"
+                ]   
+            ], 201);
+    }
+
     public function show($id)
     {
         //
@@ -57,7 +67,32 @@ class DireccionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            return response(['data' => [
+                    'error' => true,
+                    'message' => "Esta direccion ya existe"
+                ]   
+            ], 201);
+        }
+
+        $direccion = Direcciones::find($id);
+
+        if(!$direccion){
+           return $this->guardarDireccion($request->all(), $id);
+        }else{   
+            $direccion->update([
+                'direccion' => $request->direccion,
+                'lat' => $request->lat,
+                'lon' => $request->lng
+            ]);
+
+            return response(['data' => [
+                    'error' => false,
+                    'message' => "Direccion modificada"
+                ]
+            ], 201);
+        }
     }
 
     /**
@@ -69,5 +104,12 @@ class DireccionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'direccion' => ['required', 'string', 'max:255', 'unique:direcciones']
+        ]);
     }
 }

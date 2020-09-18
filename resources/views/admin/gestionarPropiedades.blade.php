@@ -13,9 +13,4 @@
 
 @push('scripts')
 <script src="{{asset('js/gestionarPropiedades.js')}}"></script>
-<script>
-	$(document).ready(function(){
-		$('.modal').modal();
-	});
-</script>
 @endpush

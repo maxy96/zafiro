@@ -2,6 +2,11 @@ import VueRouter from 'vue-router';
 
 import AgregarPropiedad from './components/AgregarPropiedad';
 import TablaDeDatosPropiedades from './components/TablaDeDatosPropiedades';
+import EditDireccion from './components/EditarDireccion'
+
+Vue.component('editPrecio', require('./components/Modals/EditPrecio.vue').default);
+Vue.component('editGaleria', require('./components/Modals/EditGaleria.vue').default);
+Vue.component('editPropiedad', require('./components/Modals/EditPropiedad.vue').default);
 
 Vue.component('precios', require('./components/form/Precios.vue').default);
 Vue.component('galeria', require('./components/form/Galeria.vue').default);
@@ -20,6 +25,10 @@ export default new VueRouter({
         {
             path: '/nueva-propiedad',
             component: AgregarPropiedad
+        },
+        {
+            path: '/editar-direccion',
+            component: EditDireccion
         },
         { path: '*', redirect: to=>{return '/'} }
     ],

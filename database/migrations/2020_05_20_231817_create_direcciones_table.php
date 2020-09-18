@@ -16,8 +16,8 @@ class CreateDireccionesTable extends Migration
         Schema::create('direcciones', function (Blueprint $table) {
             $table->bigInteger('propiedad_id')->unsigned();
             $table->string('direccion')->unique();
-            $table->string('lon')->unique();
-            $table->string('lat')->unique();
+            $table->string('lon');
+            $table->string('lat');
         });
     }
 

@@ -23,11 +23,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], f
 	Route::get('/gestionar-propiedades/{path}', 'AdminController@gestionarPropiedades')->where('path', '.*');
 });
 
-//PRUEBA
-Route::get('/prueba', function() {
-    return view('contenido.prueba');
-});
-
 //IDENTIFICACION
 Auth::routes();
 

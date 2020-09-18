@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use App\Models\Precios;
 
 class PreciosController extends Controller
@@ -26,13 +27,18 @@ class PreciosController extends Controller
      */
     public function store(Request $request)
     {
+       return $this->guardarPrecio($request->all(), $request->propiedad_id);
+    }
+
+    private function guardarPrecio(array $data, $propiedadID)
+    {
         $precio = Precios::create([
-            'propiedad_id' => $request->propiedad_id,
-            'iso' => $request->iso,
-            'precio' => $request->precio
+            'propiedad_id' => $propiedadID,
+            'iso' => $data['iso'],
+            'precio' => $data['precio']
         ]);
 
-        return response($precio, 201);
+        return response(['data' => 'Precio guardado'], 201);
     }
 
     /**
@@ -46,16 +52,19 @@ class PreciosController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $precio = Precios::find($id);
+        //Si la propiedad no tiene precios ejecutara la funcion guardar precio
+        if(!$precio){
+            return $this->guardarPrecio($request->all(), $id);
+        }
+        $precio->update([
+            'propiedad_id' => $id,
+            'iso' => $request->iso,
+            'precio' => $request->precio
+        ]);
+        return response(['data' => 'Precio modificado'], 201);   
     }
 
     /**

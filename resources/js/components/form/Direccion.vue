@@ -1,17 +1,24 @@
+<style>
+.App {
+	width: 100%;
+	height: 500px;
+}
+.pac-container {
+    z-index: 10000 !important;
+}
+</style>
 <template>
 	<div class="App">
 		<div class="form-group">
-			<label for="address_address">Address</label>
-			<input type="text" id="address-input" name="address_address" class="form-control map-input" >
-			<p>{{$store.state.newDireccion.direccion}}</p>
-			<p>{{$store.state.newDireccion.lat}}</p>
-			<p>{{$store.state.newDireccion.lng}}</p>
+			<label for="address_address">Direccion</label>
+			<input type="text" id="address-input" name="address_address" class="form-control map-input" />
 			<input type="hidden" name="address_latitude" id="address-latitude"  value="0" />
 			<input type="hidden" name="address_longitude" id="address-longitude" value="0" />
 		</div>
-		<div id="address-map-container" style="width:100%;height:400px; ">
-			<div style="width: 100%; height: 100%" id="address-map"></div>
+		<div id="address-map-container" style="width:100%; height:400px; ">
+			<div style="width: 100%; height: 100%;" id="address-map"></div>
 		</div>
+		<slot></slot>
 	</div>	
 </template>
 
@@ -19,6 +26,7 @@
 import gmapsInit from './gmaps';
 
 export default {
+	props:['oldDireccion'],
 	methods:{
 		setLatLng(lat, lng, direccion){
 			this.$store.state.newDireccion.direccion = direccion;
@@ -26,7 +34,7 @@ export default {
 			this.$store.state.newDireccion.lng = lng;
 		}
 	},
-	async created() {
+	async mounted() {
 		try {
 			const google = await gmapsInit();
 			const geocoder = new google.maps.Geocoder();	
@@ -122,9 +130,3 @@ export default {
 };
 </script>
 
-<style>
-.App {
-	width: 100%;
-	height: 500px;
-}
-</style>

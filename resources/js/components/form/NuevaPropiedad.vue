@@ -1,12 +1,11 @@
 <template>
-	<div class="row">
+	<form >
 		<div class="col s12 mt10 mb10">
 			<label v-for="inmobiliaria in inmobiliarias">
 				<input name="inmobiliaria" v-model="$store.state.newPropiedad.inmobiliaria" type="radio" :value="inmobiliaria.id_inmobiliaria" required />
 				<span>{{inmobiliaria.inmobiliaria}}</span>
 			</label>
 		</div>
-		
 		<div class="input-field col s12">
 			<input id="titulo" v-model="$store.state.newPropiedad.titulo" type="text" class="validate" required>
 			<label for="titulo">Titulo</label>
@@ -24,7 +23,8 @@
 				<input class="file-path validate" type="text">
 			</div>
 		</div>
-	</div>
+		<slot></slot>
+	</form>
 </template>
 <script>
 

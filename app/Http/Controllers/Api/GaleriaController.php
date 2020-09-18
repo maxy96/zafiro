@@ -34,6 +34,10 @@ class GaleriaController extends Controller
 
     public function store(Request $request)
     {
+        if($request->has('imagenes')){
+            return response(['data' => 'No hay imagenes'], 201);
+        }
+        
     	$propiedadID = $request->id_propiedad;
     	
     	foreach ($request->imagenes as $imagen) {

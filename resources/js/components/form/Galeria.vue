@@ -1,5 +1,5 @@
 <template>
-	<div class="row">
+	<div class="">
 		<div class="input-field file-field col s12">
 			<div class="btn">
 				<span>Imagen</span>
@@ -10,6 +10,7 @@
 			</div>
 		</div>
 		<img v-for="imagen in $store.state.newGaleria" :src="imagen" style="width: 150px; height: 150px;" alt="">
+		<slot></slot>
 	</div>
 </template>
 <script>

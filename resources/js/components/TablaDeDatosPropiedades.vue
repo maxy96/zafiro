@@ -1,5 +1,4 @@
 <template>
-
 	<div class="container-table z-depth-2 white p20 mt20 mb20">
 		<div v-if="loading" class="progress">
 			<div class="indeterminate"></div>
@@ -21,11 +20,11 @@
 				<tr v-for="propiedad in propiedades" :key="propiedad.id_propiedad">
 					<td>{{propiedad.id_propiedad}}</td>
 					<td class="hide-on-med-and-down"><img :src="`/imagen/${propiedad.imagen}`" height="60px" width="60px"></td>
-					<td>{{propiedad.direccion}}</td>
+					<td style="width: 20%;">{{propiedad.direccion}}</td>
 					<td>{{propiedad.titulo}}</td>
 					<td><!-- Inmobiliaria -->
 						<button v-if="propiedad.inmobiliaria_id == 1" class="btn-small light-blue darken-1 waves-effect waves-light" v-on:click.prevent="cambiarEstadoOInmobiliaria(propiedad.id_propiedad, 2, 'Inmobiliaria')">
-							<i class="material-icons left">local_offer</i>{{propiedad.inmobiliaria}}	
+							<i class="material-icons left">local_offer</i>{{propiedad.inmobiliaria}}
 						</button>
 						<button v-else class="btn-small light-blue darken-4 waves-effect waves-light" v-on:click.prevent="cambiarEstadoOInmobiliaria(propiedad.id_propiedad, 1, 'Inmobiliaria')">
 							<i class="material-icons left">home</i>{{propiedad.inmobiliaria}}	
@@ -35,103 +34,27 @@
 						<button v-if="propiedad.estadoPropiedad_id == 1" class="btn-small green waves-effect waves-light waves-effect waves-light" v-on:click.prevent="cambiarEstadoOInmobiliaria(propiedad.id_propiedad, 2, 'Estado')" >
 							<i class="material-icons left">thumb_up</i>{{propiedad.estado}}
 						</button>
-						<button v-else class="btn-small red waves-effect waves-light waves-effect waves-light" v-on:click.prevent="cambiarEstadoOInmobiliaria(propiedad.id_propiedad, 1, 'Estado')">
+						<button v-else class="btn-small red waves-effect waves-light" v-on:click.prevent="cambiarEstadoOInmobiliaria(propiedad.id_propiedad, 1, 'Estado')">
 							<i class="material-icons left">thumb_down</i>{{propiedad.estado}}
 						</button>
 					</td>
 					<td v-if="propiedad.iso != null || propiedad.precio != null">{{propiedad.iso +'$ '+ propiedad.precio}}</td>
-					<td v-else> - </td>
+					<td v-else> Sin precio </td>
 					<td>
-						<button class="btn-floating btn-small pink modal-trigger" v-on:click.prevent="capturarPropiedad(propiedad)" href="#editarPropiedad"><i class="material-icons">edit</i></button>
+						<button class="btn-floating btn-small green accent-4 modal-trigger" href="#editar"><i class="material-icons" v-on:click.prevent="setEditComponente('editPropiedad')">edit</i></button>
 						
-						<button class="btn-floating btn-small green accent-4 modal-trigger" v-on:click.prevent="capturarPropiedadID(propiedad.id_propiedad)" href="#galeria"><i class="material-icons">add_a_photo</i></button>
+						<button class="btn-floating btn-small red modal-trigger" href="#editar" v-on:click.prevent="setEditComponente('editGaleria')" ><i class="material-icons">add_a_photo</i></button>
 
-						<button class="btn-floating btn-small blue accent-4 modal-trigger" v-on:click.prevent="capturarPropiedadID(propiedad.id_propiedad)"><i class="material-icons">location_on</i></button>
+						<button class="btn-floating btn-small blue accent-4" v-on:click.prevent="goToEditarDireccion(propiedad)">
+							<i class="material-icons left">location_on</i>
+						</button>
+
+						<button class="btn-floating btn-small yellow darken-4 modal-trigger" href="#editar" v-on:click.prevent="setEditComponente('editPrecio');capturarPrecio(propiedad);"><i class="material-icons">attach_money</i></button>
+
 					</td>
 				</tr>
 			</tbody>
 		</datatable>
-		<div id="editarPropiedad" class="modal modal-fixed-footer">
-			<form @submit.prevent="updatePropiedad" enctype="multipart/form-data">
-				<div class="modal-content">
-					<h5 class="grey-text ">Editar propiedad</h5>
-					<div class="divider"></div>
-					<div class="row mt10">
-						<div class="input-field col l6 s12">
-							<input v-model="editPropiedad.direccion" type="text" class="validate" placeholder="">
-							<label for="direccion">Direccion</label>
-						</div>
-						<div class="input-field col l6 s12">
-							<input v-model="editPropiedad.titulo" type="text" class="validate" placeholder="">
-							<label for="titulo">Titulo</label>
-						</div>
-						<div class="input-field col l12 s12">
-							<textarea  v-model="editPropiedad.caracteristica" class="materialize-textarea" placeholder=""></textarea>
-							<label for="caracteristica">Caracteristicas</label>
-						</div>
-						<div class="input-field file-field col l6 s12">
-							<div class="btn">
-								<span>Cambiar imagen</span>
-								<input @change="obtenerImagen" type="file" accept="image/*" ref="fileImage">
-							</div>
-							<div class="file-path-wrapper">
-								<input class="file-path validate" type="text">
-							</div>
-						</div>
-						<div class="input-field col l6 s12">
-							<input  v-model="editPropiedad.precio" type="number" class="validate" placeholder="">
-							<label for="precio">Precio</label>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer ">
-					<button type="submit" class="btn-flat waves-effect waves-light modal-close ">
-						Guardar<i class="material-icons right">send</i>
-					</button>
-				</div>
-			</form>
-		</div>
-		<div id="galeria" class="modal modal-fixed-footer">
-			<form @submit.prevent="nuevaImagenEnGaleria" enctype="multipart/form-data">
-				<div class="modal-content">
-					<h5 class="grey-text ">Galeria</h5>
-					<div class="divider"></div>
-					<div class="input-field file-field col l6 s12">
-						<div class="btn">
-							<span>Imagen</span>
-							<input @change="obtenerVariasImagenes" type="file" accept="image/*" ref="fileImage">
-						</div>
-						<div class="file-path-wrapper">
-							<input class="file-path validate" type="text">
-						</div>
-					</div>
-					<div class="row container">
-						<div v-if="nuevaGaleriaVacio"  class="col s12">
-							<h5 >No hay nueva imagenes</h5>	
-						</div>
-						<div class="col m3" v-else v-for="foto in newGaleria">
-							<div class="content_img">
-								<img :src="foto" height="100px" width="100px">
-								<div>Image 1 Text</div>
-							</div>							
-						</div>
-					</div>
-					<div class="row container">
-						<div class="col s12">
-							<h5>Imagenes</h5>
-						</div>
-						<div class="col m3" v-for="imagen in galeria">
-							<img :src="`/imagen/${imagen.imagen}`" height="100px" width="100px">
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer ">
-					<button type="submit" class="btn-flat waves-effect waves-light modal-close ">
-						Guardar<i class="material-icons right">send</i>
-					</button>
-				</div>
-			</form>
-		</div>
 		<div class="row l8 s12 m10">
 			<div class="col l4 s10 m8 right">
 				<pagination :pagination="pagination"
@@ -148,35 +71,49 @@
 			</div>		
 		</div>
 	</div>
+	<div id="editar" class="modal modal-fixed-footer">
+		<component v-bind:is="componente" @updatePrecio="updatePrecio">
+
+		</component>
+	</div>
 </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
+
 import Datatable from './Datatable.vue';
 import Pagination from './Pagination.vue';
+
 export default{
 	components: { datatable: Datatable, pagination: Pagination },
 	created() {
 		this.getPropiedades();
 		this.getInmobiliarias();
+
+		this.vaciarDatosPropiedad();
+		this.vaciarDatos();
+		
+		$(document).ready(function(){
+			$('.modal').modal();
+		});
 	},
 	data() {
 		let sortOrders = {};
 
 		let columns = [
-		{width: '20%', label: 'ID', name: 'id_propiedad' },
+		{width: '10%', label: 'ID', name: 'id_propiedad' },
 		{width: '20%', label: 'Imagen', name: 'imagen' },
 		{width: '20%', label: 'Direccion', name: 'direccion' },
 		{width: '20%', label: 'Titulo', name: 'titulo'},
-		{width: '20%', label: 'Inmobiliaria', name: 'inmobiliaria'},
-		{width: '20%', label: 'Estado', name: 'estado'},
-		{width: '20%', label: 'Precio', name: 'precio'}
+		{width: '10%', label: 'Inmobiliaria', name: 'inmobiliaria'},
+		{width: '10%', label: 'Estado', name: 'estado'},
+		{width: '10%', label: 'Precio', name: 'precio'}
 		];
 
 		columns.forEach((column) => {
 			sortOrders[column.name] = -1;
 		});
 		return {
-			inmobiliarias: [],
 			propiedades: [],
 			columns: columns,
 			sortKey: 'id_propiedad',
@@ -192,28 +129,7 @@ export default{
 
 			loading: false,
 
-			editPropiedad: {
-				id_propiedad: '',
-				direccion:'',
-				titulo: '',
-				caracteristica: '',
-				imagen:'',
-				precio: ''
-			},
-
-			newPropiedad:{
-				inmobiliaria: '',
-				estado: 1,
-				direccion: '',
-				titulo:'',
-				caracteristicas:'',
-				imagen: '',
-				precio: ''
-			},
-
 			propiedadID: '',
-			galeria: [],
-			newGaleria: [],
 
 			pagination: {
 				lastPage: '',
@@ -225,6 +141,8 @@ export default{
 				from: '',
 				to: ''
 			},
+
+			componente: ''
 		}
 	},
 	computed: {
@@ -235,6 +153,11 @@ export default{
 	},
 
 	methods: {
+		...mapActions(['capturarDireccion', 'vaciarDatos', 'vaciarDatosPropiedad', 'capturarPrecio']),
+		goToEditarDireccion(propiedad){
+			this.capturarDireccion(propiedad);
+			this.$router.push('/editar-direccion');
+		},
 		getInmobiliarias(url = '/api/v1/inmobiliarias'){
 			axios.get(url).then(response => {
 				this.inmobiliarias = response.data;
@@ -250,30 +173,11 @@ export default{
 					this.propiedades = data.data.data;
 					this.configPagination(data.data);
 				}
-				this.$refs.fileImage.value = '';
 			})
 			.catch(errors => {
 				console.log(errors);
 			});
 			this.loading = false;
-		},
-
-		addNewPropiedad(){
-			let formData = new FormData();
-			formData.append('inmobiliaria_id', this.newPropiedad.inmobiliaria)
-			formData.append('estadoPropiedad_id', 1)
-			formData.append('direccion', this.newPropiedad.direccion)
-			formData.append('titulo', this.newPropiedad.titulo)
-			formData.append('caracteristicas', this.newPropiedad.caracteristicas)
-			formData.append('imagen', this.newPropiedad.imagen)
-			formData.append('precio', this.newPropiedad.precio)
-			axios.post('/api/v1/propiedades', formData).then(response => {
-				this.getPropiedades();
-				toastr.success('Nueva propiedad agregada');
-			})
-			.catch(error => {
-				console.log(error.data);
-			});
 		},
 
 		configPagination(data) {
@@ -320,15 +224,6 @@ export default{
 				this.editPropiedad.imagen = e.target.result;
 			}
 		}, //end obtenerImagen
-		
-		capturarPropiedad(propiedad){
-			this.editPropiedad.id_propiedad = propiedad.id_propiedad, 
-			this.editPropiedad.direccion = propiedad.direccion;
-			this.editPropiedad.titulo = propiedad.titulo;
-			this.editPropiedad.caracteristica = propiedad.caracteristica;
-			this.editPropiedad.imagen = propiedad.imagen;
-			this.editPropiedad.precio = propiedad.precio;
-		},
 
 		cambiarEstadoOInmobiliaria(id, dato, header){
 			this.loading = true;
@@ -342,13 +237,6 @@ export default{
 			}).catch(error => {
 				toastr.error('Error');
 			})
-		},
-
-		capturarPropiedadID(propiedadID){
-			this.newGaleria = [];
-			this.galeria = [];
-			this.propiedadID = propiedadID;
-			this.getGaleria();
 		},
 
 		getGaleria(){
@@ -368,6 +256,27 @@ export default{
 			}).catch(error => {
 				toastr.error('error');
 				console.log(error.data);
+			});
+		},
+
+		setEditComponente(componente){
+			this.componente = componente
+		},
+
+		updatePrecio(){
+			let propiedadID = this.$store.state.propiedadID;
+			let precio = this.$store.state.newPrecio;
+			axios.put('/api/v1/precio/'+ propiedadID, {
+				iso: precio.iso,
+				precio: precio.precio
+			}).then(response => {
+				let message = response.data.data;
+				toastr.success(message, 'Exito');
+				this.getPropiedades();
+			})
+			.catch(error => {
+				console.log(error);
+				toastr.error('Error');
 			});
 		},
 

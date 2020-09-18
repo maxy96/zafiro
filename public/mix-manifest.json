@@ -5,6 +5,5 @@
     "/css/toastr.css": "/css/toastr.css",
     "/js/gestionarPropiedades.js": "/js/gestionarPropiedades.js",
     "/js/maps.js": "/js/maps.js",
-    "/js/materialize-stepper.js": "/js/materialize-stepper.js",
-    "/js/nuevaPropiedad.js": "/js/nuevaPropiedad.js"
+    "/js/materialize-stepper.js": "/js/materialize-stepper.js"
 }

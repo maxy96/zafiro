@@ -86,20 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/nuevaPropiedad.js":
-/*!****************************************!*\
-  !*** ./resources/js/nuevaPropiedad.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var app = new Vue({
-  el: '#app',
-  template: '<div>hola</div>'
-});
-
-/***/ }),
-
 /***/ 3:
 /*!**********************************************!*\
   !*** multi ./resources/js/nuevaPropiedad.js ***!
@@ -107,7 +93,7 @@ var app = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\laragon\www\zafiro\resources\js\nuevaPropiedad.js */"./resources/js/nuevaPropiedad.js");
+!(function webpackMissingModule() { var e = new Error("Cannot find module 'C:\\laragon\\www\\zafiro\\resources\\js\\nuevaPropiedad.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 
 
 /***/ })

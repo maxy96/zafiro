@@ -2,7 +2,9 @@
 @section('title', $title)
 
 @section('content')
-
+<div id="app">
+	<maps/>
+</div>
 <div class="container-fluid mt30">
 	<div class="row ">
 		<div class="col l12">
@@ -39,5 +41,5 @@
 </div>
 @endsection
 @push('scripts')
-
+ <script src="{{ asset('js/maps.js') }}"></script>
 @endpush

@@ -10,7 +10,7 @@ class Precios extends Model
 
     protected $fillable = ['propiedad_id', 'iso', 'precio'];
 
-    protected $primaryKey = ['propiedad_id', 'iso'];
+    protected $primaryKey = 'propiedad_id';
 
     public $incrementing = false;
 
